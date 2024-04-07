@@ -1,6 +1,4 @@
-
-
-{{ config(materialized='table') }}
+{{ config(materialized='view') } SECURITY INVOKER}
 
 select 
   state, 
