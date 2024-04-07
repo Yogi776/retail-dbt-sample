@@ -1,6 +1,4 @@
 {{ config(materialized='view') }}
-
-{% if config.security_invoker %} SECURITY INVOKER {% endif %}
 SELECT 
   state, 
   count(distinct customer_id) as total_customers,
