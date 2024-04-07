@@ -13,7 +13,7 @@ SELECT
   count(DISTINCT order_id) AS total_orders,
   sum(order_amount) AS total_revenue
 FROM
-  {{ source('icebase', 'orders_enriched') }}
+  icebase.retail.orders_enriched
 GROUP BY
   1
 ORDER BY
