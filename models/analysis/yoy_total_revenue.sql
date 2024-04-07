@@ -1,12 +1,20 @@
-{{ config(materialized='view')  }} 
-{{ config(security_invoker=True, materialized='view') }}
+{{ config(materialized='view') }}
 
-select 
-	date_format(order_date, '%Y') as year, 
-  count(distinct customer_id) as total_customers,
-  count(distinct order_id) as total_orders,
-	sum(order_amount) as total_revenue 
-from 
-	icebase.retail.orders_enriched 
-group by 1 
-order by 1
+{% if target.name == 'trino' %}
+    {% set security_type = 'INVOKER' %}
+{% else %}
+    {% set security_type = 'DEFINER' %}
+{% endif %}
+
+CREATE OR REPLACE VIEW {{ ref('icebase.retail.yoy_total_revenue') }} SECURITY {{ security_type }} AS
+SELECT
+  date_format(order_date, '%Y') AS year,
+  count(DISTINCT customer_id) AS total_customers,
+  count(DISTINCT order_id) AS total_orders,
+  sum(order_amount) AS total_revenue
+FROM
+  {{ source('icebase', 'orders_enriched') }}
+GROUP BY
+  1
+ORDER BY
+  1
