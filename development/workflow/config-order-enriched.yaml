@@ -1,0 +1,52 @@
+name: wf-order-enriched-dbt-pipeline
+version: v1
+type: workflow
+tags:
+  - workflow
+description: This workflow triggers the pipeline to read data from the dbt stack git and write it into Icebase
+workspace: public
+workflow:
+  dag:
+    - name: order-enriched-dbt-pipeline
+      description: This workflow triggers the pipeline to read data from the dbt stack git and write it into Icebase
+      title: Order Enriched DBT Pipeline
+      spec:
+        stack: dbt+python:1.0
+        compute: runnable-default
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 250Mi
+          limits:
+            cpu: 1000m
+            memory: 250Mi
+        logLevel: DEBUG # WARNING, ERROR, DEBUG
+        stackSpec:
+          profiles:
+            dbt_trino:
+              target: dev
+              outputs:
+                dev:
+                  type: trino
+                  method: ldap
+                  user: yogeshkhangode
+                  password: <Token>
+                  host: tcp.cheerful-maggot.dataos.app
+                  database: icebase
+                  schema: retail
+                  port: 7432
+                  threads: 1
+          dbt_project:
+            name: 'dbt_test_3'
+            version: '1.0.0'
+            config-version: 2
+            model-paths: ["models"]
+            test-paths: ["tests"]
+            profile: 'dbt_trino'
+            models:
+              dbt_test_3:
+                analysis:
+                  +materialized: view
+          dbt_packages:
+            packages:
+              - git: "https://github.com/darpan-vyas/dbt-test-1.git"

@@ -1,0 +1,13 @@
+name: 'sample'
+version: '1.0.0'
+config-version: 2
+
+profile: 'dbt_trino'
+
+model-paths: ["models"]
+test-paths: ["tests"]
+
+models:
+  sample:
+    analysis:
+      +materialized: view

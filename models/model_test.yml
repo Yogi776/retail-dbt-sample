@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: customer_age_segmentation
+    columns:
+      - name: age_bracket
+        tests:
+          - unique
+          - not_null
+      - name: total_customers
+        tests:
+          - not_null
+      - name: total_orders
+        tests:
+          - not_null
+  - name: customer_income_segmentation
+    columns:
+      - name: income_bracket
+        tests:
+          - accepted_values:
+             values: ['$15k-$25k','$25k-$35k','$35k-$50k','<$15k','$150k-$200k','$200k','$100k-$150k','$50k-$75k','$75k-$100k']
+      - name: total_customers
+        tests:
+          - not_null
+      - name: total_orders
+        tests:
+          - not_null
+  - name: mom_total_revenue
+    columns:
+      - name: month
+        tests:
+          - not_null
+      - name: total_customers
+        tests:
+          - not_null
+      - name: total_orders
+        tests:
+          - not_null
+      - name: total_revenue
+        tests:
+          - not_null
