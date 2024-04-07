@@ -1,4 +1,5 @@
 {{ config(materialized='view')  }} 
+{{ config(security_invoker=True, materialized='view') }}
 
 select 
 	date_format(order_date, '%Y') as year, 
@@ -9,5 +10,3 @@ from
 	icebase.retail.orders_enriched 
 group by 1 
 order by 1
-
-{{ config(security_invoker=True, materialized='view') }}
