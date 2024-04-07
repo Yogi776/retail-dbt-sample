@@ -1,12 +1,10 @@
-{{ config(materialized='view') }}
 
 {% if target.name == 'trino' %}
     {% set security_type = 'INVOKER' %}
 {% else %}
     {% set security_type = 'DEFINER' %}
 {% endif %}
-
-CREATE OR REPLACE VIEW {{ ref('icebase.retail.yoy_total_revenue') }} SECURITY {{ security_type }} AS
+{{ config(security_invoker=True, materialized='view') }}
 SELECT
   date_format(order_date, '%Y') AS year,
   count(DISTINCT customer_id) AS total_customers,
