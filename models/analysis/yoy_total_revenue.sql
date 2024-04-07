@@ -1,10 +1,5 @@
 
-{% if target.name == 'trino' %}
-    {% set security_type = 'INVOKER' %}
-{% else %}
-    {% set security_type = 'DEFINER' %}
-{% endif %}
-{{ config(security_invoker=True, materialized='view') }}
+{{ config(security_invoker='INVOKER', materialized='view') }}
 SELECT
   date_format(order_date, '%Y') AS year,
   count(DISTINCT customer_id) AS total_customers,
