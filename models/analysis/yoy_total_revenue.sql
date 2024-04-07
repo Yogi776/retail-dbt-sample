@@ -1,4 +1,4 @@
-{{ config(materialized='view') SECURITY INVOKER }}
+{{ config(materialized='view')  }} SECURITY INVOKER
 
 select 
 	date_format(order_date, '%Y') as year, 
