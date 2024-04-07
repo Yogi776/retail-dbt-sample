@@ -1,13 +1,15 @@
-{{ config(materialized='view') } SECURITY INVOKER}
+{{ config(materialized='view') }}
 
-select 
+{% if config.security_invoker %} SECURITY INVOKER {% endif %}
+AS
+SELECT 
   state, 
   count(distinct customer_id) as total_customers,
   count(distinct order_id) as total_orders, 
   sum(order_amount) as total_revenue
-from 
+FROM 
   icebase.retail.orders_enriched 
-where 
-  brand_name is not null 
-group by 1 
-order by 4 desc;
+WHERE 
+  brand_name IS NOT NULL 
+GROUP BY 1 
+ORDER BY 4 DESC;
