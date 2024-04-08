@@ -29,8 +29,8 @@ workflow:
                   type: trino
                   method: ldap
                   user: yogeshkhangode
-                  password: eyJ0b2tlbiI6ImMzVndaWEp6WlhRdU9UZ3lNMll3WlRZdFpqYzFPQzAwTkdFd0xUazNNV1F0WlRReE9HUmxaVGN4TkRGaiIsImNsdXN0ZXIiOiJzeXN0ZW0ifQ==
-                  host: tcp.emerging-hawk.dataos.app
+                  password: <API Token>
+                  host: <HostName>
                   database: icebase
                   schema: retail
                   port: 7432
